@@ -38,7 +38,10 @@ class FragmentProfile : Fragment() {
         }
 
         binding.btnChangePassword.setOnClickListener{
-            if (binding.txtNewPassword.text.toString()==binding.txtConfirm.text.toString()){
+            if (binding.txtConfirm.text.toString()=="" || binding.txtNewPassword.text.toString()==""){
+                Toast.makeText(requireContext(), "Isi password baru terlebih dahulu", Toast.LENGTH_SHORT).show()
+            }
+            else if (binding.txtNewPassword.text.toString()==binding.txtConfirm.text.toString()){
                 viewModel.changePassword(binding.txtNewPassword.text.toString())
                 binding.txtPassword.setText(binding.txtNewPassword.text.toString())
                 binding.txtNewPassword.setText("")
