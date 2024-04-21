@@ -37,16 +37,22 @@ class FragmentProfile : Fragment() {
             getActivity()?.finish()
         }
 
-        binding.btnChangePassword.setOnClickListener{
+        binding.btnUpdate.setOnClickListener{
             if (binding.txtConfirm.text.toString()=="" || binding.txtNewPassword.text.toString()==""){
                 Toast.makeText(requireContext(), "Isi password baru terlebih dahulu", Toast.LENGTH_SHORT).show()
             }
+            else if (binding.txtNamaDepan.text.toString()==""){
+                Toast.makeText(requireContext(), "Isi nama depan terlebih dahulu", Toast.LENGTH_SHORT).show()
+            }
+            else if (binding.txtNamaBelakang.text.toString()==""){
+                Toast.makeText(requireContext(), "Isi nama belakang terlebih dahulu", Toast.LENGTH_SHORT).show()
+            }
             else if (binding.txtNewPassword.text.toString()==binding.txtConfirm.text.toString()){
-                viewModel.changePassword(binding.txtNewPassword.text.toString())
+                viewModel.update(binding.txtNamaDepan.text.toString(), binding.txtNamaBelakang.text.toString(), binding.txtNewPassword.text.toString())
                 binding.txtPassword.setText(binding.txtNewPassword.text.toString())
                 binding.txtNewPassword.setText("")
                 binding.txtConfirm.setText("")
-                Toast.makeText(requireContext(), "Berhasil mengganti password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Berhasil update profil", Toast.LENGTH_SHORT).show()
             }
             else{
                 Toast.makeText(requireContext(), "Konfirmasi password salah", Toast.LENGTH_SHORT).show()

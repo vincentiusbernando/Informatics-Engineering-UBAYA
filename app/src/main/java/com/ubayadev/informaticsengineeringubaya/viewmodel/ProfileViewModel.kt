@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 class ProfileViewModel(application: Application): AndroidViewModel(application) {
     val accountLiveData = MutableLiveData<Acc>()
     val accountLoadErrorLD = MutableLiveData<Boolean>()
-    val changePasswordLoadErrorLD = MutableLiveData<Boolean>()
+    val updateLoadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
@@ -63,10 +63,10 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         queue?.cancelAll(TAG)
     }
 
-    fun changePassword(newPassword:String){
-        changePasswordLoadErrorLD.value = false
+    fun update(namaDepan:String, namaBelakang:String, newPassword:String){
+        updateLoadErrorLD.value = false
         queue = Volley.newRequestQueue(getApplication())
-        val url = "http://10.0.2.2/anmp/change_password.php"
+        val url = "http://10.0.2.2/anmp/update_profil.php"
         val stringRequest = object: StringRequest(
             Request.Method.POST, url,
             {
@@ -74,18 +74,20 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
             },
             {
                 Log.d("showvoley", it.toString())
-                changePasswordLoadErrorLD.value = false
+                updateLoadErrorLD.value = false
             })
         {
             override fun getParams(): MutableMap<String, String>? {
                 val params = HashMap<String, String>()
                 params["id"] = MainActivity.USER_ID.toString()
                 params["password"] = newPassword
+                params["nama_depan"] = namaDepan
+                params["nama_belakang"] = namaBelakang
                 return params
             }
         }
         stringRequest.tag = TAG
         queue?.add(stringRequest)
-        changePasswordLoadErrorLD.value = false
+        updateLoadErrorLD.value = false
     }
 }
